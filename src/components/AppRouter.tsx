@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navigate, Route, Router, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {privateRoutes, publicRoutes, RouteNames} from "../router";
 import {useSelector} from "react-redux";
 import {RootState} from "../store";
@@ -9,12 +9,12 @@ const AppRouter = () => {
     return (
             auth ?
             <Routes>
-                {privateRoutes.map(route => <Route path={route.path} element={route.component} key={route.path} />)}
+                {privateRoutes.map(route => <Route path={route.path} element={route.component} key={'uniqeKEy'} />)}
                 <Route path="*" element={<Navigate replace to={RouteNames.CALENDAR} />} />
             </Routes>
                 :
             <Routes>
-                {publicRoutes.map(route => <Route path={route.path} element={route.component} key={route.path} />)}
+                {publicRoutes.map(route => <Route path={route.path} element={route.component} key={'unqekey2'} />)}
                 <Route path="*" element={<Navigate replace to={RouteNames.LOGIN} />} />
             </Routes>
 
