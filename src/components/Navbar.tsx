@@ -8,7 +8,7 @@ import {useActions} from "../hooks/useActions";
 
 const Navbar: FC = () => {
     const router = useNavigate()
-    const auth = useSelector((state:RootState) => state.auth)
+    const {auth} = useSelector((state:RootState) => state.auth)
     const {logout} = useActions();
     const {user} = useSelector((state: RootState) => state.auth)
     console.log(auth)

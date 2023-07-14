@@ -6,19 +6,27 @@ import EventForm from "../components/EventForm";
 import {useActions} from "../hooks/useActions";
 import {useSelector} from "react-redux";
 import {RootState} from "../store";
+import {IEvent} from "../models/EventInterfaces";
 
 const Calendar: FC = () => {
     const [modalVisible, setModalVisible] = useState(false)
-    const {guests} = useSelector((state:RootState) => state.event)
-    const {fetchGuests} = useActions()
+    const {guests, events} = useSelector((state:RootState) => state.event)
+    const {user} = useSelector((state:RootState) => state.auth)
+    const {fetchGuests, createEvent, fetchEvents} = useActions()
 
     useEffect(() => {
         fetchGuests();
+        fetchEvents(user.username)
     }, [])
+
+    const addNewEvent = (event: IEvent) => {
+        setModalVisible(false);
+        createEvent(event);
+    }
 
     return (
        <Layout>
-           <EventCalendar events={[]}/>
+           <EventCalendar events={events}/>
            <Row justify={"center"} style={{height: '100px'}}>
                <Button
                    style={{backgroundColor: 'lightblue', height:'100px', width: '200px'}}
@@ -32,7 +40,7 @@ const Calendar: FC = () => {
                open={modalVisible} footer={null}
                onCancel={() => setModalVisible(false)}
            >
-                <EventForm guests={guests}/>
+                <EventForm guests={guests} submit={addNewEvent}/>
            </Modal>
        </Layout>
     );

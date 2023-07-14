@@ -20,6 +20,27 @@ export const eventActionCreators = {
         } catch (e) {
             console.log(e)
         }
+    },
+    createEvent: (event: IEvent) => async (dispatch:AppDispatch) => {
+        try {
+            const events = localStorage.getItem('events') || '[]';
+            const json = JSON.parse(events) as IEvent[];
+            json.push(event);
+            dispatch(eventReducer.actions.setEvents(json))
+            localStorage.setItem('events', JSON.stringify(json))
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    fetchEvents: (username:string) => async (dispatch:AppDispatch) => {
+        try {
+            const events = localStorage.getItem('events') || '[]';
+            const json = JSON.parse(events) as IEvent[];
+            const currentUserEvents = json.filter(ev => ev.author === username || ev.guest === username )
+            dispatch(eventReducer.actions.setEvents(currentUserEvents))
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 
@@ -49,8 +70,8 @@ export const actionCreators = {
                     if (mockUser) {
                         localStorage.setItem('auth', 'true')
                         localStorage.setItem('username', mockUser.username)
-                        dispatch(actionCreators.setAuth(true))
                         dispatch(actionCreators.setUser(mockUser))
+                        dispatch(actionCreators.setAuth(true))
                     } else {
                         dispatch((actionCreators.setError('Нет такого пользователя')))
                     }

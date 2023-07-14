@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../store";
 
 const AppRouter = () => {
-    const auth = useSelector((state:RootState) => state.auth)
+    const {auth} = useSelector((state:RootState) => state.auth)
     return (
             auth ?
             <Routes>
